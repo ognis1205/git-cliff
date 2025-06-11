@@ -141,3 +141,4 @@ jobs:
         with:
           fixtures-dir: .github/fixtures/${{ matrix.fixtures-name }}
           command: ${{ matrix.command }}
+          previous-release-timestamp: ${{ matrix.previous-release-timestamp }}
