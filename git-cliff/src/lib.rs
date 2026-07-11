@@ -552,6 +552,9 @@ pub fn run_with_changelog_modifier<'a>(
         if let Some(changelog) = args.prepend {
             args.prepend = Some(workdir.join(changelog));
         }
+        if let Some(body_file) = args.body_file {
+            args.body_file = Some(workdir.join(body_file));
+        }
         // pushing an empty component force-adds a trailing path separator
         // which is needed for correct glob expansion
         args.include_path = Some(vec![Pattern::new(
@@ -635,7 +638,11 @@ pub fn run_with_changelog_modifier<'a>(
             "'-o' and '-p' can only be used together if they point to different files",
         )));
     }
-    if let Some(body) = args.body.clone() {
+    if let Some(body) = if let Some(body_file) = &args.body_file {
+        Some(fs::read_to_string(body_file)?)
+    } else {
+        args.body.clone()
+    } {
         config.changelog.body = body;
     }
     if args.sort == Sort::Oldest {

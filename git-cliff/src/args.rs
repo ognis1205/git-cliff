@@ -221,6 +221,9 @@ pub struct Opt {
         allow_hyphen_values = true
     )]
     pub body: Option<String>,
+    /// Reads the template for the changelog body from a file.
+    #[arg(long, value_name = "PATH", value_parser = Opt::parse_dir)]
+    pub body_file: Option<PathBuf>,
     /// Processes the commits starting from the latest tag.
     #[arg(short, long, help_heading = Some("FLAGS"))]
     pub latest: bool,
